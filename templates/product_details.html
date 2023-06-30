@@ -1,6 +1,98 @@
 {% extends "base_generic.html" %}
 {% block content %}
+<style>
+/* Styles for the modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
 
+.modal-content {
+  background-color: #FFFFFF;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 400px;
+  margin: 20px auto;
+}
+
+/* Style for the close button */
+.close {
+  float: right;
+  cursor: pointer;
+}
+
+/* Styles for the buttons */
+.cancel-btn {
+  background-color: #ecc3ad;
+  color: #79b9a8;
+  border: none;
+  padding: 8px 16px;
+  margin-right: 10px;
+  border-radius: 4px;
+    font-weight: bold;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background-color: #ecc3ad;
+  color: #79b9a8;
+  border: none;
+  padding: 8px 16px;
+    font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+</style>
+    <script>
+  function confirmDelete() {
+    var modal = document.getElementById("deleteModal");
+    modal.style.display = "block";
+
+    // Prevent default anchor tag behavior
+    return false;
+  }
+
+  window.addEventListener("load", function() {
+    var deleteBtn = document.getElementById("deleteBtn");
+    deleteBtn.addEventListener("click", confirmDelete);
+
+    var closeBtn = document.getElementsByClassName("close")[0];
+    var cancelBtn = document.getElementById("cancelBtn");
+
+    closeBtn.onclick = function() {
+      var modal = document.getElementById("deleteModal");
+      modal.style.display = "none";
+    };
+
+    cancelBtn.onclick = function() {
+      var modal = document.getElementById("deleteModal");
+      modal.style.display = "none";
+    };
+  });
+
+</script>
+<div id="deleteModal" class="modal">
+  <div class="modal-content ms-auto me-auto">
+    <span class="close">&times;</span>
+    <p style="font-weight:bold;color: #79b9a8">Are you sure you want to delete this item?</p>
+    <div class="modal-actions">
+        <form method="POST" action="{% url 'delete_product' product.id %}" style="display: inline">
+            {% csrf_token %}
+            <button type="submit" class="delete-btn float-end">Delete</button>
+
+        </form>
+        <button id="cancelBtn" type="" class="cancel-btn float-end">Cancel</button>
+    </div>
+  </div>
+</div>
     <div class="card m-3" style="border-width:0px">
         <img height="100%" width="40%" src="{{ product.images.first.image.url }}" class="card-img-left rounded-img"
              alt="Item 1">
@@ -8,10 +100,10 @@
             {% if user.is_authenticated %}
                 {% if product.user == logged_in %}
 
-                    <form method="POST" action="{% url 'delete_product' product.id %}" class="me-auto ms-auto"
+                    <form method="POST" class="me-auto ms-auto"
                           enctype="multipart/form-data">
                         {% csrf_token %}
-                        <button class="btn m-3 p-3 float-end" type="submit"
+                        <button class="btn m-3 p-3 float-end" type="submit" onclick="return confirmDelete();" id="deleteBtn"
                                 style="width:100px;font-size: larger;background-color: #ecc3ad;color: #79b9a8;font-weight:bold">Delete
                         </button>
                     </form>
