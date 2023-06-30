@@ -76,6 +76,7 @@ def product_details(request, pk):
         for p in prod:
             if not p.item.sold:
                 products.append(p.item)
+        colors=product.colors.all()
         context = {
             'logged_in':logged_in,
         'product': product,
@@ -303,6 +304,10 @@ def add_product(request):
             product.sent=False
             product.accepted=False
             product.save()
+            updated_colors = form.cleaned_data['colors']
+            product.colors.set(updated_colors)
+
+
             for form in formset:
                 image = form.save(commit=False)
                 image.product = product

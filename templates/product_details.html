@@ -8,7 +8,8 @@
             {% if user.is_authenticated %}
                 {% if product.user == logged_in %}
 
-                    <form method="GET" action="{% url 'edit_product' product.id %}" class="me-auto ms-auto" enctype="multipart/form-data">
+                    <form method="GET" action="{% url 'edit_product' product.id %}" class="me-auto ms-auto"
+                          enctype="multipart/form-data">
                         {% csrf_token %}
                         <button class="btn m-3 p-3 float-end" type="submit"
                                 style="font-size: larger;background-color: #ecc3ad;color: #79b9a8;font-weight:bold">Edit
@@ -29,9 +30,20 @@
                     <h3 class="card-text" style="font-weight: normal">Type: {{ product.type }}</h3>
                     <h3 class="card-text" style="font-weight: normal">
                         {% for color in product.colors.all %}
-                            {{ color }}
+                            <span>{{ color }},</span>
                         {% endfor %}
                     </h3>
+
+                        </div>
+                        <div class="col">
+                        <h1>Description</h1>
+                        <h3 style="font-weight: normal;height: 35%" class="card-text">{{ product.description }}</h3>
+                    </div>
+            </div>
+
+            <div class="row">
+            <div class="col">
+            {% if userProduct != logged_in %}
                     {% if user.is_authenticated %}
                         {% if product in favorites %}
                             <form method="POST" class="m-3" action="{% url 'remove_from_favorites' %}"
@@ -65,8 +77,6 @@
                         {% endif %}
                         </div>
                         <div class="col">
-                        <h1>Description</h1>
-                        <h3 style="font-weight: normal;height: 35%" class="card-text">{{ product.description }}</h3>
                         {% if product in cartItems %}
                             <form method="POST" class="m-3" action="{% url 'remove_from_cart' %}"
                                   style="display: inline-block">
@@ -98,10 +108,9 @@
                             </form>
                         {% endif %}
                     {% endif %}
+            {% endif %}
                     </div>
             </div>
-
-
         </div>
     </div>
     <div class="nav-item" style="padding-top: 8px;padding-left: 6px">

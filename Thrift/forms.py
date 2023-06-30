@@ -50,6 +50,9 @@ class ImageForm(forms.ModelForm):
 class ProductForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        if self.instance.pk:
+            self.fields['colors'].initial = self.instance.colors.values_list('pk', flat=True)
+
         for field in self.visible_fields():
             field.field.widget.attrs["class"] = "form-control m-2"
             field.field.widget.attrs["style"] = "background-color:#79b9a8"
@@ -57,6 +60,9 @@ class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = [ 'price', 'condition', 'size', 'description', 'shop', 'type', 'colors', 'gender']
+        widgets = {
+            'colors': forms.SelectMultiple(attrs={'class': 'form-control'}),
+        }
 
 class ProductFormEdit(forms.ModelForm):
     def __init__(self, *args, **kwargs):

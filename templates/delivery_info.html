@@ -2,15 +2,16 @@
 {% block content %}
 
     <div class="card m-3" style="border-width:0px">
-        <img height="100%" width="40%" src="{{ product.images.first.image.url }}" class="card-img-left rounded-img"
+        <img height="100%" width="40%" style="margin-right: 5%" src="{{ product.images.first.image.url }}" class="card-img-left rounded-img"
              alt="Item 1">
-        <div class="card-body">
+        <div class="row">
+        <div class="col-8 m-3" style="width: fit-content">
             <h1 class="card-title">{{ product.shop }}</h1>
             <h2 class="card-text">{{ product.size }}</h2>
             <h2 class="card-text card-price">{{ product.price }} ден.</h2>
+        </div>
 
-            <div class="row">
-                <div class="col">
+                <div class="col m-3">
                     <h1>Delivery Info</h1>
                     <h3 class="card-title" style="font-weight: normal">Address: {{ delivery.address}}</h3>
                     <h3 class="card-text" style="font-weight: normal">City: {{ delivery.city }}</h3>
@@ -18,7 +19,7 @@
                     <h3 class="card-text" style="font-weight: normal">Postal: {{ delivery.postal }}</h3>
 
                     </div>
-            </div>
+
 
 
         </div>
