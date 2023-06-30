@@ -1,0 +1,38 @@
+<link rel="stylesheet" href="css1.css">
+{% extends "base_generic.html" %}
+{% block content %}
+{% load crispy_forms_tags %}
+<style>
+input{
+    background-color:#79b9a8
+}
+    label {display: inline-block;text-align: right;width: 50%;}
+</style>
+<div class="container py-5 rounded text-center mt-5"  style="background-color:white;color: #79b9a8;width: 60%">
+  <h1 class="m-3">Payment</h1>
+  <form method="POST" action="{% url 'buy_products' %}" class="me-auto ms-auto" style="width: 60%" enctype="multipart/form-data">
+    {% csrf_token %}
+      <label class="text-center" for="phone">Telephone</label>
+      <input required class="form-control m-2" style="background-color:#79b9a8" type="text" name="phone" id="phone">
+      <label class="text-center" for="city">City</label>
+      <input required class="form-control m-2" style="background-color:#79b9a8" type="text" name="city" id="city">
+      <label class="text-center" for="address">Address</label>
+      <input required class="form-control m-2" style="background-color:#79b9a8" type="text" name="address" id="address">
+      <label class="text-center" for="postal">Postal Code</label>
+      <input required type="text" class="form-control  m-2" style="background-color:#79b9a8" name="postal" id="postal">
+      <label class="text-center" for="card_num">Card Number</label>
+      <input required type="text" class="form-control m-2" style="background-color:#79b9a8" id="card_num">
+      <label class="text-center" for="name">First and Last Name</label>
+      <input required type="text" class="form-control m-2" id="name" style="background-color:#79b9a8">
+      <label class="text-center" for="date">Card Date</label>
+      <input required type="date" class="form-control m-2" id="date" style="background-color:#79b9a8">
+      <label class="text-center" for="ccv">CVV</label>
+      <input required type="text" class="form-control m-2" id="ccv" style="background-color:#79b9a8">
+      <h2>Total: <span style="color: #ffd670">{{ total }}</span></h2>
+    <button class="btn m-3 p-3" type="submit" style="font-size: larger;background-color: #ecc3ad;color: #79b9a8;font-weight:bold">Pay</button>
+
+  </form>
+
+</div>
+  </div>
+  {% endblock %}

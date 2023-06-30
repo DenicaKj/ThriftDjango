@@ -1,0 +1,17 @@
+{% extends "base_generic.html" %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+
+    <!--Login-->
+<div class="container py-5 rounded text-center mt-5"  style="background-color:white;color: #79b9a8;width: 60%">
+  <h1>Login</h1>
+  <form method="POST" class="me-auto ms-auto" style="width: 60%">
+    {% csrf_token %}
+    {{ login_form}}
+    <button class="btn m-3 p-3" type="submit" style="font-size: larger;background-color: #ecc3ad;color: #79b9a8;font-weight:bold">Login</button>
+  </form>
+  <p class="text-center">Don't have an account? <a href="/register">Create an account</a>.</p>
+</div>
+  </div>
+{%  endblock %}

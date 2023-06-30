@@ -1,0 +1,30 @@
+<style>
+        container1 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .white-div {
+            display: flex;
+            border-radius: 10px;
+            color: #79b9a8;
+            width: 50%;
+            height: 40%;
+            background-color: white;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+
+{% extends "base_generic.html" %}
+{% block content %}
+    <div class="container1">
+        <div class="white-div text-center ms-auto me-auto " style="margin-top: 10%">
+            <h1>Successfully Added Product</h1>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base_generic.html" %}
+{% block content %}
+    <h1 class="m-3">Sent</h1>
+<div class="card-deck">
+            {% for product in products %}
+                <a href="{% url 'product-details' product.id %}" style="text-decoration: none;color: inherit;">
+                    <div class="card m-3"
+                         style="flex-direction: column;display: inline-block;height:fit-content;border-width: 0px">
+                        <img style="width: 200px;height: 250px" src="{{ product.images.first.image.url }}" class="card-img-top rounded-img" alt="Item 1">
+                        <div class="card-body">
+                            <h5 class="card-title m-0">{{ product.shop }}</h5>
+                            <p class="card-text m-0">{{ product.size }}</p>
+                            <p class="card-text card-price m-0">{{ product.price }} ден.</p>
+                            <p class="card-text m-0">{{ product.description }}</p>
+                            <p class="card-text m-0">{{ product.date_sent }}</p>
+                            <form method="POST" action="{% url 'arrived_product' product.id %}">
+                                {% csrf_token %}
+                                <button class="btn add-product-btn float-center" style="font-size: larger;font-weight:bold;color: #79b9a8">Accept</button>
+                            </form>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+{% endblock %}

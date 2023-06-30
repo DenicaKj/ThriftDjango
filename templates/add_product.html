@@ -1,0 +1,19 @@
+<link rel="stylesheet" href="css1.css">
+{% extends "base_generic.html" %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+<div class="container py-5 rounded text-center mt-5"  style="background-color:white;color: #79b9a8;width: 60%">
+  <h1>Add Product</h1>
+  <form method="POST" class="me-auto ms-auto" style="width: 60%" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form}}
+      {{ formset.management_form }}
+        {% for form in formset %}
+            {{ form.as_p }}
+        {% endfor %}
+    <button class="btn m-3 p-3" type="submit" style="font-size: larger;background-color: #ecc3ad;color: #79b9a8;font-weight:bold">Add Product</button>
+  </form>
+</div>
+  </div>
+  {% endblock %}
