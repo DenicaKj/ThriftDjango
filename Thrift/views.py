@@ -1,8 +1,6 @@
 from pyexpat.errors import messages
-from sqlite3 import Date
 from datetime import datetime
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import AuthenticationForm
 from django.forms import formset_factory
 from django.shortcuts import render, get_object_or_404
 from django.shortcuts import render, redirect
@@ -21,11 +19,11 @@ def index(request):
     else:
         queryset = Product.objects.filter(sold=False).exclude(user=request.user).all()[:5]
         fav = Favorites.objects.filter(user=request.user).all()
-        favorites = []
+        favorites_ = []
         for f in fav:
-            favorites.append(f.product)
-        cart = ShoppingCart.objects.filter(user=request.user).first()
-        prod = ShoppingItem.objects.filter(cart=cart).all()
+            favorites_.append(f.product)
+        cart_ = ShoppingCart.objects.filter(user=request.user).first()
+        prod = ShoppingItem.objects.filter(cart=cart_).all()
         products = []
         for p in prod:
             if not p.item.sold:
@@ -40,14 +38,14 @@ def female(request):
         context = {"products": queryset}
     else:
         queryset = Product.objects.filter(gender='F',sold=False).exclude(user=request.user).all()
-        user=request.user
+        user = request.user
         fav = Favorites.objects.filter(user=request.user).all()
-        favorites=[]
+        favorites_=[]
         for f in fav:
             if not f.product.sold:
-                favorites.append(f.product)
-        cart = ShoppingCart.objects.filter(user=request.user).first()
-        prod = ShoppingItem.objects.filter(cart=cart).all()
+                favorites_.append(f.product)
+        cart_ = ShoppingCart.objects.filter(user=request.user).first()
+        prod = ShoppingItem.objects.filter(cart=cart_).all()
         products = []
         for p in prod:
             if not p.item.sold:
@@ -271,7 +269,6 @@ def register_request(request):
         if form.is_valid():
             user = form.save()
             user.image = form.cleaned_data['image']
-            login(request, user)
             return redirect("login")
     else:
         form = NewUserForm()
