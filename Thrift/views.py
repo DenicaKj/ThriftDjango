@@ -7,7 +7,7 @@ from django.forms import formset_factory
 from django.shortcuts import render, get_object_or_404
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
-
+from django.http import Http404
 from Thrift.forms import NewUserForm, StyledAuthenticationForm, ProductForm, ImageFormSet, ImageForm, ProductFormEdit
 from Thrift.models import Product, Favorites, ShoppingCart, CustomUser, ShoppingItem, Order, Comment, ImageProd, \
     Delivery
@@ -171,6 +171,9 @@ def delivery_info(request,pk):
     user=Order.objects.filter(product=prod).first().user
     return render(request,'delivery_info.html',{'delivery':delivery,'product':prod,'userBought':user})
 
+
+
+
 @login_required()
 def arrived_product(request,pk):
     product = Product.objects.filter(id=pk).first()
@@ -213,6 +216,16 @@ def delete_comment(request):
         Comment.objects.filter(id=id).delete()
         return redirect('profile', user)
     return redirect('index')
+
+@login_required()
+def delete_product(request,pk):
+    if request.method == 'POST':
+        product=Product.objects.filter(id=pk).first()
+        Product.objects.filter(pk=pk).delete()
+        return redirect('profile', request.user.id)
+    return redirect('profile',request.user.id)
+
+
 @login_required()
 def favorites(request):
     user=request.user
@@ -361,12 +374,14 @@ def logout_request(request):
 
 @login_required()
 def add_to_favorites(request):
-    if request.method=='POST':
+    if request.method=='POST' and request.user!=Product.objects.filter(id=int(request.POST.get('id'))).first().user:
         id=int(request.POST.get('id'))
         fav=Favorites()
         fav.user=request.user
         fav.product=Product.objects.filter(id=id).first()
         fav.save()
+    else:
+        raise Http404("Page not found")
     referer = request.META.get('HTTP_REFERER')
     return redirect(referer)
 
@@ -401,12 +416,14 @@ def cart(request):
 
 @login_required()
 def add_to_cart(request):
-    if request.method=='POST':
+    if request.method=='POST' and request.user!=Product.objects.filter(id=int(request.POST.get('id'))).first().user:
         cart = ShoppingCart.objects.filter(user=request.user).first()
         shopitem=ShoppingItem()
         shopitem.cart=cart
         shopitem.item=Product.objects.filter(id=int(request.POST.get('id'))).first()
         shopitem.save()
+    else:
+        raise Http404("Page not found")
     referer = request.META.get('HTTP_REFERER')
     return redirect(referer)
 
@@ -419,3 +436,8 @@ def remove_from_cart(request):
     referer = request.META.get('HTTP_REFERER')
     return redirect(referer)
 
+def error_404(request, exception):
+    return render(request, 'error.html', status=404)
+
+def error_500(request):
+    return render(request, 'error.html', status=500)

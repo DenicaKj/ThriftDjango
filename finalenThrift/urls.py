@@ -17,11 +17,16 @@ Including another URLconf
 from django.conf import settings
 from django.contrib import admin
 from django.urls import path
-from Thrift.views import index, register_request,delivery_info, arrived_product, for_sending, product_details, profile, \
+
+import Thrift.views
+from Thrift.views import index, register_request,delete_product,delivery_info, arrived_product, for_sending, product_details, profile, \
     remove_from_cart, add_to_cart, \
     cart, favorites, login_request, logout_request, add_product, remove_from_favorites, female, male, add_to_favorites, \
     sent, arrived, sold,buy_products,sent_product,sent_2,accepted,all_bought,all_sold,add_comment,delete_comment,edit_product,payment
 from django.conf.urls.static import static
+
+handler404 = 'Thrift.views.error_404'
+handler500 = 'Thrift.views.error_500'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name="index"),
@@ -33,6 +38,7 @@ urlpatterns = [
     path("remove_from_favorites", remove_from_favorites, name="remove_from_favorites"),
     path("add_to_cart", add_to_cart, name="add_to_cart"),
     path('product/<int:pk>/', product_details, name='product-details'),
+    path('delete_product/<int:pk>/', delete_product, name='delete_product'),
     path('add_comment/', add_comment, name='add_comment'),
     path('delete_comment/', delete_comment, name='delete_comment'),
     path('profile/<int:pk>/', profile, name='profile'),

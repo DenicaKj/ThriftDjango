@@ -8,15 +8,20 @@
             {% if user.is_authenticated %}
                 {% if product.user == logged_in %}
 
+                    <form method="POST" action="{% url 'delete_product' product.id %}" class="me-auto ms-auto"
+                          enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <button class="btn m-3 p-3 float-end" type="submit"
+                                style="width:100px;font-size: larger;background-color: #ecc3ad;color: #79b9a8;font-weight:bold">Delete
+                        </button>
+                    </form>
                     <form method="GET" action="{% url 'edit_product' product.id %}" class="me-auto ms-auto"
                           enctype="multipart/form-data">
                         {% csrf_token %}
                         <button class="btn m-3 p-3 float-end" type="submit"
-                                style="font-size: larger;background-color: #ecc3ad;color: #79b9a8;font-weight:bold">Edit
-                            Product
+                                style="width:100px;font-size: larger;background-color: #ecc3ad;color: #79b9a8;font-weight:bold">Edit
                         </button>
                     </form>
-
                 {% endif %}
             {% endif %}
             <h1 class="card-title">{{ product.shop }}</h1>
