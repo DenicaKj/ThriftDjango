@@ -5,6 +5,9 @@
 
     <!--Login-->
 <div class="container py-5 rounded text-center mt-5"  style="background-color:white;color: #79b9a8;width: 60%">
+    {% if error %}
+    <p class="text-center text-danger">Incorrect username or password</p>
+    {% endif %}
   <h1>Login</h1>
   <form method="POST" class="me-auto ms-auto" style="width: 60%">
     {% csrf_token %}

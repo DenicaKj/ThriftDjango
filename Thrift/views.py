@@ -276,6 +276,7 @@ def register_request(request):
 
 @csrf_exempt
 def login_request(request):
+    error=False
     if request.method == "POST":
         form = StyledAuthenticationForm(request, data=request.POST)
         if form.is_valid():
@@ -290,11 +291,15 @@ def login_request(request):
                     create_new_shopping_cart_for_user(form.get_user())
                 return redirect("index")
             else:
-                messages.error(request,"Invalid username or password.")
+                form = StyledAuthenticationForm()
+                error=True
+                return render(request=request, template_name="login.html", context={"login_form":form,'error':error})
         else:
-            messages.error(request,"Invalid username or password.")
+            form = StyledAuthenticationForm()
+            error = True
+            return render(request=request, template_name="login.html", context={"login_form": form, 'error': error})
     form = StyledAuthenticationForm()
-    return render(request=request, template_name="login.html", context={"login_form":form})
+    return render(request=request, template_name="login.html", context={"login_form":form,'error':error})
 
 def create_new_shopping_cart_for_user(current_user):
     cart = ShoppingCart(user=CustomUser.objects.all().filter(id=current_user.id).first())
